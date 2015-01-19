@@ -5,13 +5,14 @@ function link_global_modules {
   npmgl=$(grep "^\s*[^#\s]" /opt/nodejs/etc/npm_global_module_list | sort -u)
 
   # Available global modules; only match top-level npm packages
-  global_modules=$(npm ls -g 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
+  global_modules=$(scl enable v8314 nodejs010 "npm ls -g" 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
 
   # List all modules in common
   module_list=$(comm -12 <(echo "${global_modules}") <(echo "${npmgl}") | tr '\n' ' ')
 
   # Link the modules
-  npm link $module_list &> /dev/null
+  scl enable v8314 nodejs010 "npm link $module_list"
+  #npm link $module_list &> /dev/null
 }
 
 if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
@@ -31,6 +32,6 @@ cp -Rf ${APP_SRC_DIR}/* ${APP_RUNTIME_DIR}/
 pushd "${APP_RUNTIME_DIR}/${APP_ROOT}" >/dev/null
 echo "---> Building your Node application from source"
 
-npm install -d
+scl enable v8314 nodejs010 "npm install -d"
 
 popd >/dev/null

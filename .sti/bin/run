@@ -10,7 +10,7 @@ cd $APP_ROOT_DIR
 [ "$1" == "--debug" ] && exec /bin/bash
 
 function get_main_script_from_package_json() {
-    node <<NODE_EOF
+    scl enable v8314 nodejs010 "node <<NODE_EOF
 try {
   var zmain = require('$APP_ROOT_DIR/package.json').main;
   if (typeof zmain === 'undefined') {
@@ -22,9 +22,9 @@ try {
 } catch(ex) {
   console.log('server.js');
 }
-NODE_EOF
+NODE_EOF"
 
 }  #  End of function  get_main_script_from_package_json.
 
 node_app=`get_main_script_from_package_json`
-exec npm start -d
+scl enable v8314 nodejs010 "npm start -d"
