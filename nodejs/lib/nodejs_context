@@ -1,3 +1,6 @@
+
 function nodejs_context {
-  scl enable v8314 nodejs010 "$1"
+  source /opt/rh/v8314/enable
+  source /opt/rh/nodejs010/enable
+  exec "$1"
 }
