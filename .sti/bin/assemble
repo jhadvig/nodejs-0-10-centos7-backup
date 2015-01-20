@@ -17,6 +17,10 @@ function link_global_modules {
   #npm link $module_list &> /dev/null
 }
 
+if [ "$1" = "-h" ]; then
+  exec /opt/nodejs/bin/usage
+fi
+
 if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
   echo "Restoring build artifacts"
   mv /tmp/artifacts/* $HOME/.
