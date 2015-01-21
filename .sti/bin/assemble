@@ -2,7 +2,6 @@
 
 source "${HOME}/lib/nodejs_context"
 
-source /opt/rh/ruby193/enable
 source /opt/rh/nodejs010/enable
 
 export X_SCLS="`scl enable nodejs010 'echo $X_SCLS'`"
