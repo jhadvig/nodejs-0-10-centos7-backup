@@ -28,4 +28,4 @@ NODE_EOF
 }  #  End of function  get_main_script_from_package_json.
 
 node_app=`get_main_script_from_package_json`
-exec_nodejs_context "npm start -d"
+nodejs_context "npm start -d"
