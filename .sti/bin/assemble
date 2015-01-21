@@ -2,18 +2,29 @@
 
 source "${HOME}/lib/nodejs_context"
 
+source /opt/rh/ruby193/enable
+source /opt/rh/nodejs010/enable
+
+export X_SCLS="`scl enable nodejs010 'echo $X_SCLS'`"
+
 function link_global_modules {
   # Global modules good to have
   npmgl=$(grep "^\s*[^#\s]" /opt/nodejs/etc/npm_global_module_list | sort -u)
 
   # Available global modules; only match top-level npm packages
-  global_modules=$(scl enable nodejs010 npm ls -g 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
+  global_modules=$(npm ls -g 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
+
+  echo "!!!!!!!!!!!!!!!!!!!"
+  echo ${npmgl}
+  echo ${global_modules}
+  echo "!!!!!!!!!!!!!!!!!!!"
 
   # List all modules in common
   module_list=$(comm -12 <(echo "${global_modules}") <(echo "${npmgl}") | tr '\n' ' ')
+  echo "==================="
 
   # Link the modules
-  scl enable nodejs010 npm link $module_list
+  npm link $module_list
   #npm link $module_list &> /dev/null
 }
 
@@ -38,6 +49,6 @@ cp -Rf ${APP_SRC_DIR}/* ${APP_RUNTIME_DIR}/
 pushd "${APP_RUNTIME_DIR}/${APP_ROOT}" >/dev/null
 echo "---> Building your Node application from source"
 
-scl enable nodejs010 npm -- install -d
+npm -- install -d
 
 popd >/dev/null
