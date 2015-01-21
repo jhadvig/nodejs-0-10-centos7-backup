@@ -2,3 +2,7 @@
 function nodejs_context {
   scl enable v8314 nodejs010 "$1"
 }
+
+function exec_nodejs_context {
+  scl enable v8314 nodejs010 -- "$1"
+}
