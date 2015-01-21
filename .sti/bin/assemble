@@ -13,7 +13,7 @@ function link_global_modules {
   module_list=$(comm -12 <(echo "${global_modules}") <(echo "${npmgl}") | tr '\n' ' ')
 
   # Link the modules
-  nodejs_context "npm link $module_list"
+  scl enable nodejs010 npm link $module_list
   #npm link $module_list &> /dev/null
 }
 
@@ -38,6 +38,6 @@ cp -Rf ${APP_SRC_DIR}/* ${APP_RUNTIME_DIR}/
 pushd "${APP_RUNTIME_DIR}/${APP_ROOT}" >/dev/null
 echo "---> Building your Node application from source"
 
-scl enable nodejs010 npm install -d
+scl enable nodejs010 npm -- install -d
 
 popd >/dev/null
