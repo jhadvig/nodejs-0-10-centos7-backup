@@ -1,4 +1,4 @@
 
 function nodejs_context {
-  scl enable nodejs010 -- "$1"
+  scl enable nodejs010 "$1"
 }

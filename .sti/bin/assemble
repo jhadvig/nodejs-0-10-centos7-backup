@@ -7,7 +7,7 @@ function link_global_modules {
   npmgl=$(grep "^\s*[^#\s]" /opt/nodejs/etc/npm_global_module_list | sort -u)
 
   # Available global modules; only match top-level npm packages
-  global_modules=$(nodejs_context "npm ls -g" 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
+  global_modules=$(scl enable nodejs010 npm ls -g 2> /dev/null | perl -ne 'print "$1\n" if /^\S+\s(\S+)\@[\d\.-]+/' | sort -u)
 
   # List all modules in common
   module_list=$(comm -12 <(echo "${global_modules}") <(echo "${npmgl}") | tr '\n' ' ')
@@ -38,6 +38,6 @@ cp -Rf ${APP_SRC_DIR}/* ${APP_RUNTIME_DIR}/
 pushd "${APP_RUNTIME_DIR}/${APP_ROOT}" >/dev/null
 echo "---> Building your Node application from source"
 
-nodejs_context "npm install -d"
+scl enable nodejs010 npm install -d
 
 popd >/dev/null
